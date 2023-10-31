@@ -1,32 +1,35 @@
 package com.mvaldiviezoutp.automaticbrightness
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.view.WindowManager
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
 
-    private var brightnessObserver: BrightnessObserver? = null
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Configurar el brillo al máximo
+        // Set the screen brightness to the maximum value
         setBrightnessToMax()
 
-        // Crear e iniciar el observador de brillo
-        brightnessObserver = BrightnessObserver(this, Handler())
-        contentResolver.registerContentObserver(
-            Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS), true, brightnessObserver!!
-        )
+        // Set up a button to navigate to the second activity
+        val navigateButton = findViewById<Button>(R.id.navigateButton)
+        navigateButton.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setBrightnessToMax() {
         val layoutParams = window.attributes
-        layoutParams.screenBrightness = 1.0f // Establecer brillo al máximo
+        layoutParams.screenBrightness = 1.0f // Maximum brightness
         window.attributes = layoutParams
     }
 }
+
+
